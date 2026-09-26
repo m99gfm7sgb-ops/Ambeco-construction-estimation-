@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#082f57">
+<title>AMBECO Cost Estimator Pro</title>
+<style>
+:root{--navy:#082f57;--navy2:#0b477e;--red:#e50920;--blue:#1976c9;--bg:#f3f6fa;--card:#fff;--text:#172033;--muted:#6d7788;--line:#dce4ed;--green:#14844a;--amber:#b56b00}
+*{box-sizing:border-box}body{margin:0;font:14px Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text);background:var(--bg)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{display:flex;min-height:100vh}.side{width:245px;background:var(--navy);color:#fff;position:fixed;inset:0 auto 0 0;padding:18px 13px;z-index:10}.logo{display:flex;align-items:center;gap:10px;padding:7px 8px 22px}.logoMark{width:42px;height:42px;border-radius:10px;background:#fff;color:var(--red);display:grid;place-items:center;font-weight:900}.logo b{font-size:17px}.logo small{display:block;color:#c9d7e6;font-size:10px}.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#dbe8f5;text-align:left;padding:12px;border-radius:9px}.nav button:hover,.nav button.active{background:#ffffff18;color:#fff}.nav button.active{border-left:3px solid var(--red)}.sidefoot{position:absolute;bottom:18px;left:18px;right:18px;color:#a9bfd4;font-size:11px;line-height:1.5}
+.main{margin-left:245px;width:calc(100% - 245px)}.top{height:67px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:5}.top h2{margin:0;font-size:19px}.topRight{display:flex;gap:9px;align-items:center}.pill{padding:7px 10px;background:#eef4fa;border-radius:20px;font-size:12px;color:var(--navy)}
+.content{padding:25px;max-width:1500px;margin:auto}.view{display:none}.view.active{display:block}.title{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:18px}.title h1{margin:0 0 4px;font-size:27px}.sub{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px;box-shadow:0 3px 14px #0b31500a}.card h3,.card h2{margin:0 0 13px}.metric{font-size:25px;font-weight:850}.metric.red{color:var(--red)}.metric.green{color:var(--green)}.small{font-size:12px;color:var(--muted)}
+.btn{border:0;border-radius:8px;padding:10px 14px;font-weight:700}.primary{background:var(--red);color:#fff}.dark{background:var(--navy);color:#fff}.light{background:#eef4fa;color:var(--navy)}.outline{background:#fff;border:1px solid var(--line);color:var(--navy)}.danger{background:#fff0f1;color:#c50018}.actions{display:flex;gap:8px;flex-wrap:wrap}.field label{display:block;font-size:11px;font-weight:800;color:#475466;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue)}.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.full{grid-column:1/-1}
+.table{width:100%;border-collapse:collapse}.wrap{overflow:auto;border:1px solid var(--line);border-radius:11px;background:#fff}.table th,.table td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:middle}.table th{background:#f7f9fc;color:#35445a;position:sticky;top:0}.table input,.table select{padding:7px;border:1px solid var(--line);border-radius:6px;min-width:70px;width:100%}.right{text-align:right!important}.totalbar{background:var(--navy);color:#fff;padding:18px;border-radius:12px}.totalbar .big{font-size:28px;font-weight:900}.line{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #ffffff22}.notice{background:#fff8df;border:1px solid #eed68a;padding:11px;border-radius:9px;color:#624700;font-size:12px}.success{background:#edf9f2;border:1px solid #b8e4ca;padding:11px;border-radius:9px;color:#126337;font-size:12px}
+.projectCard{display:flex;justify-content:space-between;gap:10px;align-items:center}.projectCard h3{margin:0}.tag{display:inline-block;padding:4px 7px;border-radius:14px;background:#edf4fb;color:var(--navy);font-size:10px;font-weight:800}.empty{text-align:center;padding:40px;color:var(--muted)}
+.upload{border:2px dashed #a8bbce;border-radius:13px;padding:30px;text-align:center;background:#f8fbff}.upload:hover{border-color:var(--blue)}.preview{margin-top:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}.preview img{display:block;max-width:100%;max-height:560px;margin:auto}.preview iframe{width:100%;height:560px;border:0}.preview .meta{padding:9px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.canvasWrap{background:#202b36;border-radius:10px;padding:10px;overflow:auto}.measureCanvas{display:block;background:#fff;max-width:none}.legend{font-size:12px;color:var(--muted);margin-top:7px}
+.report{background:#fff;padding:35px;border-radius:4px;max-width:1050px;margin:auto}.reportHead{display:flex;justify-content:space-between;border-bottom:3px solid var(--red);padding-bottom:13px}.report table{min-width:0}.report th,.report td{font-size:10px;padding:7px}.reportTotal{text-align:right;font-size:12px;line-height:1.7}.reportTotal strong{font-size:18px;color:var(--red)}
+.modal{position:fixed;inset:0;background:#0008;z-index:30;display:none;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.modalBox{background:#fff;border-radius:14px;width:min(800px,100%);max-height:90vh;overflow:auto;padding:22px}
+.toast{position:fixed;right:20px;bottom:20px;background:var(--navy);color:#fff;padding:12px 16px;border-radius:9px;z-index:50;display:none}.toast.show{display:block}
+@media(max-width:950px){.side{width:72px}.side .logo div:not(.logoMark),.side .nav span,.sidefoot{display:none}.logo{justify-content:center}.main{margin-left:72px;width:calc(100% - 72px)}.grid{grid-template-columns:repeat(2,1fr)}.formgrid,.grid3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.side{position:fixed;width:100%;height:60px;bottom:0;top:auto;padding:4px;display:block}.logo{display:none}.nav{display:flex;justify-content:space-around}.nav button{font-size:0;padding:9px;min-width:42px;text-align:center}.nav button:before{content:"•";font-size:18px}.main{margin-left:0;width:100%;padding-bottom:62px}.top{padding:0 14px}.content{padding:15px}.grid,.grid2,.grid3,.formgrid{grid-template-columns:1fr}.title{display:block}.title .actions{margin-top:10px}.report{padding:15px}.reportHead{display:block}}
+@media print{.side,.top,.noPrint{display:none!important}.main{margin:0;width:100%}.content{padding:0}.view{display:none!important}#reportView{display:block!important}.report{box-shadow:none;border:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="logo"><div class="logoMark">AGC</div><div><b>AMBECO</b><small>Cost Estimator Pro</small></div></div>
+  <div class="nav">
+    <button class="active" onclick="go('dashboard',this)">⌂ <span>Dashboard</span></button>
+    <button onclick="go('projects',this)">▣ <span>Projects</span></button>
+    <button onclick="go('takeoff',this)">⌗ <span>Plan & Takeoff</span></button>
+    <button onclick="go('boq',this)">☷ <span>BOQ / Estimate</span></button>
+    <button onclick="go('rates',this)">₦ <span>Price Database</span></button>
+    <button onclick="go('analysis',this)">◈ <span>Rate Analysis</span></button>
+    <button onclick="go('reportView',this)">▤ <span>Reports</span></button>
+    <button onclick="go('settings',this)">⚙ <span>Settings</span></button>
+  </div>
+  <div class="sidefoot">AMBECO GLOBAL CONSTRUCTION LTD<br>Building the future with precision<br>Benin City, Edo State, Nigeria</div>
+</aside>
+
+<main class="main">
+<header class="top"><h2 id="topTitle">Dashboard</h2><div class="topRight"><span class="pill" id="locPill">No project</span><span class="pill">₦ NGN</span></div></header>
+<div class="content">
+
+<section id="dashboard" class="view active">
+ <div class="title"><div><h1>Construction Cost Dashboard</h1><div class="sub">Estimate, price, measure and report from one workspace.</div></div><div class="actions"><button class="btn primary" onclick="newProject()">+ New Project</button><button class="btn dark" onclick="go('takeoff')">Upload Plan</button></div></div>
+ <div class="grid">
+  <div class="card"><div class="small">Current Project</div><div class="metric" id="dProject">—</div><div class="small" id="dLocation">—</div></div>
+  <div class="card"><div class="small">Estimate Total</div><div class="metric red" id="dTotal">₦0</div><div class="small">Current BOQ</div></div>
+  <div class="card"><div class="small">Cost / m²</div><div class="metric green" id="dM2">₦0</div><div class="small">Based on project area</div></div>
+  <div class="card"><div class="small">BOQ Items</div><div class="metric" id="dItems">0</div><div class="small">Priced / unpriced</div></div>
+ </div>
+ <div class="grid2" style="margin-top:15px">
+  <div class="card"><h3>Start a new estimate</h3><p class="sub">Create the project, upload the plan, run the quantity takeoff, then price the BOQ.</p><div class="actions"><button class="btn primary" onclick="newProject()">Create Project</button><button class="btn outline" onclick="go('rates')">Check Rates</button></div></div>
+  <div class="card"><h3>Current project workflow</h3><div class="small">① Project → ② Plan → ③ Takeoff → ④ BOQ → ⑤ Rates → ⑥ Report</div><div class="success" style="margin-top:12px">Your project data is stored in this browser. Use Backup/Restore in Settings before changing devices.</div></div>
+ </div>
+ <div class="card" style="margin-top:15px"><h3>Recent Projects</h3><div id="recentProjects"></div></div>
+</section>
+
+<section id="projects" class="view">
+ <div class="title"><div><h1>Projects</h1><div class="sub">Create and manage construction estimates.</div></div><button class="btn primary" onclick="newProject()">+ New Project</button></div>
+ <div id="projectList" class="grid2"></div>
+</section>
+
+<section id="takeoff" class="view">
+ <div class="title"><div><h1>Plan & Quantity Takeoff</h1><div class="sub">Upload a plan, verify scale/dimensions, calculate quantities and send them to the BOQ.</div></div><span class="tag" id="takeoffProject">No project</span></div>
+ <div class="card">
+  <h3>1. Upload Building Plan</h3>
+  <div class="upload" onclick="document.getElementById('planFile').click()" ondragover="event.preventDefault()" ondrop="dropPlan(event)">
+   <div style="font-size:38px">📐</div><b>Architectural or structural plan</b><div class="small">PDF, JPG, JPEG, PNG • maximum 30 MB</div>
+   <button class="btn primary" style="margin-top:10px" type="button">Choose Plan</button>
+   <input id="planFile" type="file" accept=".pdf,.jpg,.jpeg,.png" hidden onchange="loadPlan(this.files[0])">
+  </div>
+  <div id="planPreview"></div>
+ </div>
+
+ <div class="card" style="margin-top:15px">
+  <h3>2. Plan Measurement Assistant</h3>
+  <div class="formgrid">
+   <div class="field"><label>Known length on drawing (m)</label><input id="scaleKnown" type="number" value="5" step="0.01"></div>
+   <div class="field"><label>Measurement mode</label><select id="measureMode"><option>Manual dimension entry</option><option>Click two points on uploaded image</option></select></div>
+   <div class="field"><label>Measured pixels / points</label><input id="measuredPx" readonly placeholder="Click two points"></div>
+  </div>
+  <div class="canvasWrap" style="margin-top:12px"><canvas id="measureCanvas" class="measureCanvas" width="900" height="500"></canvas></div>
+  <div class="legend">For image plans, choose “Click two points”, click two points along a known dimension, and the app calculates the drawing scale. This is an assisted measurement tool; verify dimensions against the drawing.</div>
+ </div>
+
+ <div class="card" style="margin-top:15px">
+  <h3>3. Building Geometry</h3>
+  <div class="formgrid">
+   <div class="field"><label>Building Length (m)</label><input id="tL" type="number" value="20" step=".01"></div>
+   <div class="field"><label>Building Width (m)</label><input id="tW" type="number" value="15" step=".01"></div>
+   <div class="field"><label>Number of Floors</label><input id="tF" type="number" value="2" step="1"></div>
+   <div class="field"><label>Floor-to-floor Height (m)</label><input id="tH" type="number" value="3" step=".1"></div>
+   <div class="field"><label>External Wall Thickness (mm)</label><input id="tWT" type="number" value="225"></div>
+   <div class="field"><label>Internal Wall Length / floor (m)</label><input id="tIW" type="number" value="25"></div>
+   <div class="field"><label>Internal Wall Thickness (mm)</label><input id="tIWT" type="number" value="150"></div>
+   <div class="field"><label>Door Openings / floor (m²)</label><input id="tDO" type="number" value="12"></div>
+   <div class="field"><label>Window Openings / floor (m²)</label><input id="tWO" type="number" value="18"></div>
+  </div>
+ </div>
+
+ <div class="card" style="margin-top:15px">
+  <h3>4. Foundation, slab & material assumptions</h3>
+  <div class="formgrid">
+   <div class="field"><label>Foundation trench width (m)</label><input id="tFTW" type="number" value=".6" step=".05"></div>
+   <div class="field"><label>Excavation depth (m)</label><input id="tFD" type="number" value=".9" step=".05"></div>
+   <div class="field"><label>Blinding thickness (m)</label><input id="tBT" type="number" value=".05" step=".01"></div>
+   <div class="field"><label>Footing width (m)</label><input id="tFCW" type="number" value=".75" step=".05"></div>
+   <div class="field"><label>Footing thickness (m)</label><input id="tFCT" type="number" value=".2" step=".05"></div>
+   <div class="field"><label>Floor slab thickness (mm)</label><input id="tST" type="number" value="150"></div>
+   <div class="field"><label>Cement / m³ concrete (50kg bags)</label><input id="tCB" type="number" value="8"></div>
+   <div class="field"><label>Sand / m³ concrete (m³)</label><input id="tCS" type="number" value=".5"></div>
+   <div class="field"><label>Granite / m³ concrete (m³)</label><input id="tCG" type="number" value="1"></div>
+   <div class="field"><label>Cement / m³ mortar (bags)</label><input id="tMB" type="number" value="7"></div>
+   <div class="field"><label>Sand / m³ mortar (m³)</label><input id="tMS" type="number" value="1"></div>
+   <div class="field"><label>225mm blocks / m²</label><input id="tB225" type="number" value="10"></div>
+   <div class="field"><label>150mm blocks / m²</label><input id="tB150" type="number" value="10"></div>
+   <div class="field"><label>Rebar allowance (kg / m³ concrete)</label><input id="tRK" type="number" value="100"></div>
+   <div class="field"><label>Waste allowance (%)</label><input id="tWaste" type="number" value="5"></div>
+  </div>
+  <div class="actions" style="margin-top:15px"><button class="btn primary" onclick="calculateTakeoff()">Calculate Quantities</button><button class="btn dark" onclick="sendTakeoff()">Send to BOQ</button></div>
+ </div>
+ <div class="card" style="margin-top:15px"><h3>5. Quantity Schedule</h3><div class="wrap"><table class="table"><thead><tr><th>Item</th><th>Unit</th><th>Base Qty</th><th>Waste</th><th>Final Qty</th></tr></thead><tbody id="takeBody"></tbody></table></div></div>
+ <div class="notice" style="margin-top:15px"><b>Engineering limitation:</b> Dimension-based takeoff is preliminary. Structural quantities must be based on the approved structural drawings/design. The reinforcement field is an allowance only, not reinforcement design.</div>
+</section>
+
+<section id="boq" class="view">
+ <div class="title"><div><h1>BOQ / Estimate</h1><div class="sub" id="boqSub">No project selected.</div></div><div class="actions"><button class="btn primary" onclick="addBOQ()">+ Add Item</button><button class="btn light" onclick="go('rates')">Use Price Database</button><button class="btn dark" onclick="go('reportView')">Report</button></div></div>
+ <div class="wrap"><table class="table"><thead><tr><th>No.</th><th>Section</th><th>Description</th><th>Unit</th><th>Qty</th><th>Rate ₦</th><th>Amount ₦</th><th></th></tr></thead><tbody id="boqBody"></tbody></table><div id="boqEmpty" class="empty">No BOQ items. Add an item or send quantities from the takeoff.</div></div>
+ <div class="grid2" style="margin-top:15px">
+  <div class="card"><h3>Project Add-ons</h3><div class="formgrid">
+   <div class="field"><label>Labour (%)</label><input id="labPct" type="number" value="15" oninput="recalc()"></div>
+   <div class="field"><label>Plant (%)</label><input id="plantPct" type="number" value="5" oninput="recalc()"></div>
+   <div class="field"><label>Transport (%)</label><input id="transPct" type="number" value="5" oninput="recalc()"></div>
+   <div class="field"><label>Overhead (%)</label><input id="overPct" type="number" value="6" oninput="recalc()"></div>
+   <div class="field"><label>Contingency (%)</label><input id="contPct" type="number" value="5" oninput="recalc()"></div>
+  </div></div>
+  <div class="totalbar"><div class="line"><span>BOQ Subtotal</span><b id="sSub">₦0</b></div><div class="line"><span>Labour</span><b id="sLab">₦0</b></div><div class="line"><span>Plant</span><b id="sPlant">₦0</b></div><div class="line"><span>Transport</span><b id="sTrans">₦0</b></div><div class="line"><span>Overhead</span><b id="sOver">₦0</b></div><div class="line"><span>Contingency</span><b id="sCont">₦0</b></div><div class="big" style="margin-top:10px">₦<span id="grand">0</span></div></div>
+ </div>
+</section>
+
+<section id="rates" class="view">
+ <div class="title"><div><h1>Nigerian Price Database</h1><div class="sub">Every rate should have a location, specification, source and date.</div></div><button class="btn primary" onclick="openRate()">+ Add Rate</button></div>
+ <div class="card" style="margin-bottom:15px"><div class="formgrid">
+  <div class="field"><label>Search</label><input id="rateQ" oninput="renderRates()" placeholder="cement, block, rebar..."></div>
+  <div class="field"><label>Location filter</label><select id="rateLoc" onchange="renderRates()"><option>All</option><option>Benin City, Edo State</option><option>Abuja, FCT</option><option>Lagos, Lagos State</option><option>Port Harcourt, Rivers State</option><option>National reference</option></select></div>
+  <div class="field"><label>Category</label><select id="rateCat" onchange="renderRates()"><option>All</option><option>Cement</option><option>Blocks</option><option>Rebar</option><option>Sand & Aggregate</option><option>Roofing</option><option>Finishes</option><option>Timber</option><option>Plumbing</option><option>Electrical</option></select></div>
+ </div></div>
+ <div class="wrap"><table class="table"><thead><tr><th>Item / Specification</th><th>Cat.</th><th>Unit</th><th>Rate ₦</th><th>Location</th><th>Source</th><th>Updated</th><th></th></tr></thead><tbody id="rateBody"></tbody></table></div>
+ <div class="notice" style="margin-top:12px">The seeded market figures are reference values, not guaranteed supplier quotations. Current published Nigerian sources show large variation by location and specification, so verify rates before tendering or purchasing. citeturn0search0turn0search2turn0search3</div>
+</section>
+
+<section id="analysis" class="view">
+ <div class="title"><div><h1>Rate Analysis</h1><div class="sub">Build composite unit rates from material, labour, plant and waste components.</div></div><button class="btn primary" onclick="newAnalysis()">+ New Analysis</button></div>
+ <div class="grid2">
+  <div class="card"><h3>Selected Analysis</h3><div class="formgrid">
+   <div class="field"><label>Description</label><input id="anName" value="1 m³ Concrete 1:2:4"></div>
+   <div class="field"><label>Output Unit</label><input id="anUnit" value="m³"></div>
+   <div class="field"><label>Waste (%)</label><input id="anWaste" type="number" value="5"></div>
+  </div><div class="actions" style="margin-top:12px"><button class="btn primary" onclick="addComponent()">+ Component</button><button class="btn dark" onclick="saveAnalysis()">Save Analysis</button></div></div>
+  <div class="totalbar"><div class="small" style="color:#cbd9e7">Calculated composite rate</div><div class="big">₦<span id="anTotal">0</span></div><div class="small" style="color:#cbd9e7">per <span id="anUnitOut">m³</span></div></div>
+ </div>
+ <div class="wrap" style="margin-top:15px"><table class="table"><thead><tr><th>Component</th><th>Unit</th><th>Qty</th><th>Rate ₦</th><th>Amount ₦</th><th></th></tr></thead><tbody id="anBody"></tbody></table></div>
+ <div class="card" style="margin-top:15px"><h3>Saved Analyses</h3><div id="analysisList"></div></div>
+</section>
+
+<section id="reportView" class="view">
+ <div class="actions noPrint" style="margin-bottom:15px"><button class="btn dark" onclick="window.print()">Print / Save PDF</button><button class="btn outline" onclick="go('boq')">Back to BOQ</button></div>
+ <div id="report" class="report"></div>
+</section>
+
+<section id="settings" class="view">
+ <div class="title"><div><h1>Company & App Settings</h1><div class="sub">Customize the report and protect your data.</div></div></div>
+ <div class="card"><h3>Company details</h3><div class="formgrid">
+  <div class="field"><label>Company Name</label><input id="setCompany"></div>
+  <div class="field"><label>Phone</label><input id="setPhone"></div>
+  <div class="field"><label>Email</label><input id="setEmail"></div>
+  <div class="field"><label>Website</label><input id="setWeb"></div>
+  <div class="field full"><label>Address</label><input id="setAddress"></div>
+  <div class="field full"><label>Report footer / note</label><textarea id="setNote" rows="3"></textarea></div>
+ </div><div class="actions" style="margin-top:12px"><button class="btn primary" onclick="saveSettings()">Save Settings</button></div></div>
+ <div class="grid2" style="margin-top:15px">
+  <div class="card"><h3>Backup & Restore</h3><p class="small">Export all projects, rates, analyses and settings as a JSON backup.</p><div class="actions"><button class="btn dark" onclick="backup()">Export Backup</button><button class="btn outline" onclick="document.getElementById('restore').click()">Restore Backup</button><input id="restore" type="file" accept=".json" hidden onchange="restoreBackup(this.files[0])"></div></div>
+  <div class="card"><h3>Data warning</h3><p class="small">This prototype stores data locally in the browser. A production cloud version should use authenticated accounts, encrypted storage, audit trails and role-based access.</p><button class="btn danger" onclick="clearData()">Clear Local Data</button></div>
+ </div>
+</section>
+</div></main></div>
+
+<div id="modal" class="modal"><div class="modalBox" id="modalBox"></div></div><div id="toast" class="toast"></div>
+
+<script>
+const KEY="ambecoProV1";
+let db=JSON.parse(localStorage.getItem(KEY)||"null")||{
+ settings:{company:"AMBECO GLOBAL CONSTRUCTION LTD",phone:"+234 706 762 2151",email:"Info@ambecoglobalconstruction.com",web:"ambecoglobalconstruction.com",address:"Benin City, Edo State, Nigeria",note:"Rates are subject to supplier quotation, location, specification, haulage and market movement. Quantities should be checked against approved drawings before construction."},
+ projects:[],active:null,rates:[
+ {name:"Cement 50kg (Dangote/BUA/Comparable)",cat:"Cement",unit:"bag",rate:12000,loc:"National reference",source:"Sept 2026 market reference",date:"2026-09"},
+ {name:"9 inch hollow sandcrete block",cat:"Blocks",unit:"No.",rate:1000,loc:"National reference",source:"Sept 2026 market reference",date:"2026-09"},
+ {name:"6 inch hollow sandcrete block",cat:"Blocks",unit:"No.",rate:700,loc:"National reference",source:"Sept 2026 market reference",date:"2026-09"},
+ {name:"12mm reinforcement steel",cat:"Rebar",unit:"tonne",rate:1050000,loc:"National reference",source:"Sept 2026 market reference",date:"2026-09"},
+ {name:"16mm reinforcement steel",cat:"Rebar",unit:"tonne",rate:1050000,loc:"National reference",source:"Sept 2026 market reference",date:"2026-09"},
+ {name:"Sharp sand",cat:"Sand & Aggregate",unit:"trip",rate:120000,loc:"National reference",source:"Sept 2026 market reference",date:"2026-09"},
+ {name:"Granite 3/4 inch",cat:"Sand & Aggregate",unit:"trip",rate:285000,loc:"National reference",source:"Current market reference",date:"2026-09"},
+ {name:"Roofing sheet",cat:"Roofing",unit:"m²",rate:7500,loc:"National reference",source:"Indicative 2026 range midpoint",date:"2026-09"},
+ {name:"60x60 floor tile",cat:"Finishes",unit:"m²",rate:10000,loc:"National reference",source:"Indicative 2026 range midpoint",date:"2026-09"},
+ {name:"Emulsion paint 20L",cat:"Finishes",unit:"bucket",rate:40000,loc:"National reference",source:"Indicative 2026 range midpoint",date:"2026-09"},
+ {name:"PVC 4 inch drainage pipe",cat:"Plumbing",unit:"6m length",rate:6250,loc:"National reference",source:"Indicative 2026 range midpoint",date:"2026-09"}
+ ],analyses:[],plan:null,takeoff:[],analysisComponents:[]
+};
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+const $=id=>document.getElementById(id), n=x=>Number(x||0), money=x=>n(x).toLocaleString("en-NG",{maximumFractionDigits:2}), esc=s=>String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+function toast(msg){$("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2200)}
+function activeProject(){return db.projects.find(p=>p.id===db.active)}
+function go(id,btn){
+ document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$(id).classList.add("active");
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));if(btn)btn.classList.add("active");
+ const names={dashboard:"Dashboard",projects:"Projects",takeoff:"Plan & Quantity Takeoff",boq:"BOQ / Estimate",rates:"Price Database",analysis:"Rate Analysis",reportView:"Reports",settings:"Settings"};$("topTitle").textContent=names[id]||"AMBECO";
+ if(id==="dashboard")renderDash();if(id==="projects")renderProjects();if(id==="takeoff")renderTakeoff();if(id==="boq")renderBOQ();if(id==="rates")renderRates();if(id==="analysis")renderAnalyses();if(id==="reportView")renderReport();if(id==="settings")loadSettings()
+}
+function newProject(){
+ openModal(`<h2>New Project</h2><div class="formgrid">
+ <div class="field"><label>Project name</label><input id="mName" value="New Building Project"></div>
+ <div class="field"><label>Client</label><input id="mClient"></div>
+ <div class="field"><label>Location</label><select id="mLoc"><option>Benin City, Edo State</option><option>Abuja, FCT</option><option>Lagos, Lagos State</option><option>Port Harcourt, Rivers State</option><option>Warri, Delta State</option><option>Other</option></select></div>
+ <div class="field"><label>Building type</label><select id="mType"><option>Bungalow</option><option>Duplex</option><option>3-Storey Building</option><option>Commercial Building</option><option>Renovation</option></select></div>
+ <div class="field"><label>Area (m²)</label><input id="mArea" type="number" value="200"></div>
+ <div class="field"><label>Floors</label><input id="mFloors" type="number" value="2"></div>
+ </div><div class="actions" style="margin-top:15px"><button class="btn primary" onclick="createProject()">Create Project</button><button class="btn outline" onclick="closeModal()">Cancel</button></div>`)
+}
+function createProject(){
+ const p={id:Date.now().toString(),name:$("mName").value,client:$("mClient").value,location:$("mLoc").value,type:$("mType").value,area:n($("mArea").value),floors:n($("mFloors").value),date:new Date().toISOString().slice(0,10),items:[],add:{lab:15,plant:5,trans:5,over:6,cont:5}};
+ db.projects.unshift(p);db.active=p.id;save();closeModal();toast("Project created");go("takeoff")
+}
+function renderDash(){
+ const p=activeProject();$("dProject").textContent=p?.name||"No project";$("dLocation").textContent=p?.location||"Create a project";$("locPill").textContent=p?.location||"No project";
+ const t=calc(p);$("dTotal").textContent="₦"+money(t.total);$("dM2").textContent=p?.area?"₦"+money(t.total/p.area):"₦0";$("dItems").textContent=p?.items.length||0;
+ $("recentProjects").innerHTML=db.projects.slice(0,5).map(x=>`<div class="projectCard" style="padding:11px 0;border-bottom:1px solid var(--line)"><div><h3>${esc(x.name)}</h3><span class="tag">${esc(x.location)}</span> <span class="small">${x.date}</span></div><button class="btn light" onclick="selectProject('${x.id}')">Open</button></div>`).join("")||'<div class="empty">No projects yet.</div>'
+}
+function selectProject(id){db.active=id;save();toast("Project selected");go("dashboard")}
+function renderProjects(){
+ $("projectList").innerHTML=db.projects.map(p=>{let t=calc(p);return `<div class="card"><div class="projectCard"><div><h3>${esc(p.name)}</h3><span class="tag">${esc(p.type)}</span></div><button class="btn light" onclick="selectProject('${p.id}')">Open</button></div><p class="small">${esc(p.client||"No client")} • ${esc(p.location)} • ${p.area||0} m²</p><div class="metric red">₦${money(t.total)}</div><div class="actions" style="margin-top:12px"><button class="btn outline" onclick="openProject('${p.id}')">Edit</button><button class="btn danger" onclick="deleteProject('${p.id}')">Delete</button></div></div>`}).join("")||'<div class="empty">No projects yet.</div>'
+}
+function openProject(id){const p=db.projects.find(x=>x.id===id);db.active=id;openModal(`<h2>Edit Project</h2><div class="formgrid"><div class="field"><label>Name</label><input id="eName" value="${esc(p.name)}"></div><div class="field"><label>Client</label><input id="eClient" value="${esc(p.client)}"></div><div class="field"><label>Location</label><input id="eLoc" value="${esc(p.location)}"></div><div class="field"><label>Area m²</label><input id="eArea" type="number" value="${p.area}"></div><div class="field"><label>Floors</label><input id="eFloors" type="number" value="${p.floors}"></div></div><div class="actions" style="margin-top:15px"><button class="btn primary" onclick="saveProjectEdit('${id}')">Save</button><button class="btn outline" onclick="closeModal()">Cancel</button></div>`)}
+function saveProjectEdit(id){let p=db.projects.find(x=>x.id===id);p.name=$("eName").value;p.client=$("eClient").value;p.location=$("eLoc").value;p.area=n($("eArea").value);p.floors=n($("eFloors").value);save();closeModal();renderProjects();toast("Project updated")}
+function deleteProject(id){if(confirm("Delete this project?")){db.projects=db.projects.filter(p=>p.id!==id);if(db.active===id)db.active=db.projects[0]?.id||null;save();renderProjects();}}
+function calc(p){
+ if(!p)return{sub:0,lab:0,plant:0,trans:0,over:0,cont:0,total:0};
+ let sub=p.items.reduce((a,x)=>a+n(x.qty)*n(x.rate),0),a=p.add||{lab:15,plant:5,trans:5,over:6,cont:5};
+ let lab=sub*n(a.lab)/100,plant=sub*n(a.plant)/100,trans=sub*n(a.trans)/100,over=sub*n(a.over)/100,b=sub+lab+plant+trans+over,cont=b*n(a.cont)/100;return{sub,lab,plant,trans,over,cont,total:b+cont}
+}
+function renderBOQ(){
+ const p=activeProject();$("boqSub").textContent=p?`${p.name} • ${p.location} • ${p.area} m² • ${p.client||"No client"}`:"No project selected.";
+ const body=$("boqBody");body.innerHTML="";$("boqEmpty").style.display=p&&p.items.length?"none":"block";if(!p)return;
+ p.items.forEach((x,i)=>{let tr=document.createElement("tr");tr.innerHTML=`<td>${i+1}</td><td><input value="${esc(x.section)}" onchange="editBOQ(${i},'section',this.value)"></td><td><input value="${esc(x.desc)}" onchange="editBOQ(${i},'desc',this.value)"></td><td><input value="${esc(x.unit)}" onchange="editBOQ(${i},'unit',this.value)"></td><td><input type="number" value="${x.qty}" onchange="editBOQ(${i},'qty',this.value)"></td><td><input type="number" value="${x.rate}" onchange="editBOQ(${i},'rate',this.value)"></td><td>₦${money(n(x.qty)*n(x.rate))}</td><td><button class="btn danger" onclick="delBOQ(${i})">×</button></td>`;body.appendChild(tr)});let a=p.add||{};["labPct","plantPct","transPct","overPct","contPct"].forEach((id,i)=>$(id).value=[a.lab??15,a.plant??5,a.trans??5,a.over??6,a.cont??5][i]);recalc()
+}
+function editBOQ(i,k,v){let p=activeProject();p.items[i][k=["qty","rate"].includes(k)?k:k]=(k==="qty"||k==="rate")?n(v):v;save();renderBOQ()}
+function delBOQ(i){let p=activeProject();p.items.splice(i,1);save();renderBOQ()}
+function addBOQ(){if(!activeProject()){newProject();return}let p=activeProject();p.items.push({section:"Preliminaries",desc:"New item",unit:"LS",qty:1,rate:0});save();renderBOQ()}
+function recalc(){
+ const p=activeProject();if(!p)return;let a=p.add||{};a.lab=n($("labPct").value);a.plant=n($("plantPct").value);a.trans=n($("transPct").value);a.over=n($("overPct").value);a.cont=n($("contPct").value);p.add=a;let t=calc(p);$("sSub").textContent="₦"+money(t.sub);$("sLab").textContent="₦"+money(t.lab);$("sPlant").textContent="₦"+money(t.plant);$("sTrans").textContent="₦"+money(t.trans);$("sOver").textContent="₦"+money(t.over);$("sCont").textContent="₦"+money(t.cont);$("grand").textContent=money(t.total);save();renderDash()
+}
+function loadPlan(file){
+ if(!file)return;if(!["application/pdf","image/jpeg","image/png"].includes(file.type)){alert("Upload PDF, JPG, JPEG or PNG.");return}if(file.size>30*1024*1024){alert("Plan must be below 30 MB.");return}
+ const url=URL.createObjectURL(file);db.plan={name:file.name,type:file.type,size:file.size,url};save();renderTakeoff();toast("Plan uploaded")
+}
+function dropPlan(e){e.preventDefault();loadPlan(e.dataTransfer.files[0])}
+function renderTakeoff(){
+ const p=activeProject();$("takeoffProject").textContent=p?.name||"No project";let pp=$("planPreview");pp.innerHTML=db.plan?db.plan.type==="application/pdf"?`<div class="preview"><iframe src="${db.plan.url}"></iframe><div class="meta">${esc(db.plan.name)} • PDF</div></div>`:`<div class="preview"><img src="${db.plan.url}" alt="Building plan"><div class="meta">${esc(db.plan.name)} • Image</div></div>`:"";
+ drawCanvas();renderTakeResults()
+}
+let clicks=[];
+function drawCanvas(){
+ const c=$("measureCanvas"),ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle="#f4f7fb";ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle="#68778a";ctx.font="16px Arial";ctx.fillText(db.plan?"Click two points after selecting measurement mode":"Upload an image plan to use the measurement assistant.",30,40);
+ if(db.plan?.type?.startsWith("image/")){let img=new Image();img.onload=()=>{let scale=Math.min(900/img.width,500/img.height,1);c.width=img.width*scale;c.height=img.height*scale;ctx.drawImage(img,0,0,c.width,c.height);clicks.forEach((pt,i)=>{ctx.fillStyle="#e50920";ctx.beginPath();ctx.arc(pt.x,pt.y,5,0,Math.PI*2);ctx.fill();if(i===1){ctx.strokeStyle="#e50920";ctx.beginPath();ctx.moveTo(clicks[0].x,clicks[0].y);ctx.lineTo(pt.x,pt.y);ctx.stroke()}})};img.src=db.plan.url}
+}
+$("measureCanvas").addEventListener("click",e=>{if($("measureMode").value!=="Click two points on uploaded image"||!db.plan?.type?.startsWith("image/"))return;let r=$("measureCanvas").getBoundingClientRect();clicks.push({x:e.clientX-r.left,y:e.clientY-r.top});if(clicks.length>2)clicks=[];if(clicks.length===2){let dx=clicks[1].x-clicks[0].x,dy=clicks[1].y-clicks[0].y,px=Math.sqrt(dx*dx+dy*dy);$("measuredPx").value=px.toFixed(2)+" px";toast("Scale measured: "+(n($("scaleKnown").value)/px).toFixed(5)+" m/px")}drawCanvas()})
+function calculateTakeoff(){
+ const L=n($("tL").value),W=n($("tW").value),F=n($("tF").value),H=n($("tH").value),per=2*(L+W),area=L*W,extGross=per*H*F,intGross=n($("tIW").value)*H*F,open=(n($("tDO").value)+n($("tWO").value))*F,extNet=Math.max(0,extGross-open);
+ const exc=per*n($("tFTW").value)*n($("tFD").value),blind=per*n($("tFCW").value)*n($("tBT").value),foot=per*n($("tFCW").value)*n($("tFCT").value),slab=area*F*n($("tST").value)/1000,con=blind+foot+slab,wallArea=extNet+intGross,mortar=wallArea*.02,w=n($("tWaste").value)/100;
+ db.takeoff=[
+  ["Foundation excavation","m³",exc],["Blinding concrete","m³",blind],["Footing concrete","m³",foot],["Floor slab concrete","m³",slab],["Total concrete","m³",con],
+  ["225mm external wall area","m²",extNet],["150mm internal wall area","m²",intGross],["225mm blocks","No.",extNet*n($("tB225").value)],["150mm blocks","No.",intGross*n($("tB150").value)],["Mortar","m³",mortar],
+  ["Cement for concrete","50kg bag",con*n($("tCB").value)],["Sand for concrete","m³",con*n($("tCS").value)],["Granite for concrete","m³",con*n($("tCG").value)],
+  ["Cement for mortar","50kg bag",mortar*n($("tMB").value)],["Sand for mortar","m³",mortar*n($("tMS").value)],["Reinforcement allowance","kg",con*n($("tRK").value)]
+ ].map(x=>[...x,x[2]*w,x[2]*(1+w)]);save();renderTakeResults();toast("Quantities calculated")
+}
+function renderTakeResults(){let b=$("takeBody");b.innerHTML=(db.takeoff||[]).map(r=>`<tr><td>${esc(r[0])}</td><td>${r[1]}</td><td>${money(r[2])}</td><td>${money(r[3])}</td><td><b>${money(r[4])}</b></td></tr>`).join("")||'<tr><td colspan="5" class="empty">Click Calculate Quantities.</td></tr>'}
+function sendTakeoff(){if(!activeProject()){newProject();return}if(!db.takeoff.length)calculateTakeoff();let p=activeProject();db.takeoff.forEach(r=>p.items.push({section:"Quantity Takeoff",desc:r[0],unit:r[1],qty:+r[4].toFixed(3),rate:0}));save();toast("Quantities added to BOQ");go("boq")}
+function renderRates(){
+ let q=($("rateQ").value||"").toLowerCase(),loc=$("rateLoc").value,cat=$("rateCat").value,b=$("rateBody");b.innerHTML="";
+ db.rates.filter(r=>(!q||r.name.toLowerCase().includes(q))&&(loc==="All"||r.loc===loc)&&(cat==="All"||r.cat===cat)).forEach((r,i)=>{let tr=document.createElement("tr");tr.innerHTML=`<td>${esc(r.name)}</td><td>${r.cat}</td><td>${r.unit}</td><td>₦${money(r.rate)}</td><td>${esc(r.loc)}</td><td>${esc(r.source)}</td><td>${r.date}</td><td><div class="actions"><button class="btn light" onclick="useRate(${i})">Use</button><button class="btn danger" onclick="deleteRate(${i})">×</button></div></td>`;b.appendChild(tr)})
+}
+function useRate(i){let r=db.rates[i];if(!activeProject()){newProject();return}let p=activeProject();p.items.push({section:r.cat,desc:r.name,unit:r.unit,qty:1,rate:r.rate});save();go("boq");toast("Rate added to BOQ")}
+function deleteRate(i){if(confirm("Delete this rate?")){db.rates.splice(i,1);save();renderRates()}}
+function openRate(){openModal(`<h2>Add Nigerian Price Rate</h2><div class="formgrid"><div class="field"><label>Item / specification</label><input id="ri"></div><div class="field"><label>Category</label><select id="rc"><option>Cement</option><option>Blocks</option><option>Rebar</option><option>Sand & Aggregate</option><option>Roofing</option><option>Finishes</option><option>Timber</option><option>Plumbing</option><option>Electrical</option></select></div><div class="field"><label>Unit</label><input id="ru" placeholder="bag / No. / tonne / m²"></div><div class="field"><label>Rate ₦</label><input id="rr" type="number"></div><div class="field"><label>Location</label><input id="rl" value="${activeProject()?.location||"Benin City, Edo State"}"></div><div class="field"><label>Source / supplier</label><input id="rs" placeholder="Supplier quotation / market survey"></div></div><div class="actions" style="margin-top:15px"><button class="btn primary" onclick="saveRate()">Save Rate</button><button class="btn outline" onclick="closeModal()">Cancel</button></div>`)}
+function saveRate(){let r={name:$("ri").value,cat:$("rc").value,unit:$("ru").value,rate:n($("rr").value),loc:$("rl").value,source:$("rs").value||"User supplied",date:new Date().toISOString().slice(0,10)};if(!r.name||!r.unit||!r.rate){alert("Enter item, unit and rate.");return}db.rates.unshift(r);save();closeModal();renderRates()}
+function newAnalysis(){db.analysisComponents=[];$("anName").value="1 m³ Concrete 1:2:4";$("anUnit").value="m³";$("anWaste").value=5;renderAnalysisComponents()}
+function addComponent(){db.analysisComponents.push({name:"Cement 50kg",unit:"bag",qty:8,rate:db.rates.find(r=>r.name.toLowerCase().includes("cement"))?.rate||0});renderAnalysisComponents()}
+function renderAnalysisComponents(){let b=$("anBody");b.innerHTML=db.analysisComponents.map((x,i)=>`<tr><td><input value="${esc(x.name)}" onchange="anEdit(${i},'name',this.value)"></td><td><input value="${esc(x.unit)}" onchange="anEdit(${i},'unit',this.value)"></td><td><input type="number" value="${x.qty}" onchange="anEdit(${i},'qty',this.value)"></td><td><input type="number" value="${x.rate}" onchange="anEdit(${i},'rate',this.value)"></td><td>₦${money(x.qty*x.rate)}</td><td><button class="btn danger" onclick="anDel(${i})">×</button></td></tr>`).join("");let total=db.analysisComponents.reduce((a,x)=>a+n(x.qty)*n(x.rate),0)*(1+n($("anWaste").value)/100);$("anTotal").textContent=money(total);$("anUnitOut").textContent=$("anUnit").value}
+function anEdit(i,k,v){db.analysisComponents[i][k]=["qty","rate"].includes(k)?n(v):v;renderAnalysisComponents()}
+function anDel(i){db.analysisComponents.splice(i,1);renderAnalysisComponents()}
+function saveAnalysis(){let x={name:$("anName").value,unit:$("anUnit").value,waste:n($("anWaste").value),components:JSON.parse(JSON.stringify(db.analysisComponents)),date:new Date().toISOString().slice(0,10)};db.analyses.unshift(x);save();renderAnalyses();toast("Rate analysis saved")}
+function renderAnalyses(){$("analysisList").innerHTML=db.analyses.map((a,i)=>{let total=a.components.reduce((s,x)=>s+n(x.qty)*n(x.rate),0)*(1+a.waste/100);return `<div class="projectCard" style="padding:10px 0;border-bottom:1px solid var(--line)"><div><b>${esc(a.name)}</b><div class="small">${a.date} • ₦${money(total)} / ${a.unit}</div></div><button class="btn light" onclick="applyAnalysis(${i})">Add to BOQ</button></div>`}).join("")||'<div class="empty">No saved analyses.</div>'}
+function applyAnalysis(i){let a=db.analyses[i];if(!activeProject()){newProject();return}let total=a.components.reduce((s,x)=>s+n(x.qty)*n(x.rate),0)*(1+a.waste/100);activeProject().items.push({section:"Rate Analysis",desc:a.name,unit:a.unit,qty:1,rate:+total.toFixed(2)});save();go("boq");toast("Composite rate added")}
+function renderReport(){
+ let p=activeProject(),el=$("report");if(!p){el.innerHTML='<div class="empty">Create a project first.</div>';return}let t=calc(p),s=db.settings;
+ el.innerHTML=`<div class="reportHead"><div><h1 style="margin:0;color:var(--red)">${esc(s.company)}</h1><div>${esc(s.address)}<br>${esc(s.phone)} • ${esc(s.email)} • ${esc(s.web)}</div></div><div style="text-align:right"><b>PROJECT COST ESTIMATE</b><br>${p.date}</div></div>
+ <p><b>Project:</b> ${esc(p.name)}<br><b>Client:</b> ${esc(p.client||"—")}<br><b>Location:</b> ${esc(p.location)}<br><b>Type:</b> ${esc(p.type)} • ${p.floors} floor(s) • ${p.area} m²</p>
+ <table class="table"><thead><tr><th>No.</th><th>Section</th><th>Description</th><th>Unit</th><th>Qty</th><th>Rate ₦</th><th>Amount ₦</th></tr></thead><tbody>${p.items.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.section)}</td><td>${esc(x.desc)}</td><td>${esc(x.unit)}</td><td>${x.qty}</td><td>${money(x.rate)}</td><td>${money(n(x.qty)*n(x.rate))}</td></tr>`).join("")}</tbody></table>
+ <div class="reportTotal">BOQ Subtotal: ₦${money(t.sub)}<br>Labour: ₦${money(t.lab)}<br>Plant: ₦${money(t.plant)}<br>Transportation: ₦${money(t.trans)}<br>Overhead: ₦${money(t.over)}<br>Contingency: ₦${money(t.cont)}<br><strong>TOTAL PROJECT COST: ₦${money(t.total)}</strong></div>
+ <div class="notice" style="margin-top:14px">${esc(s.note)}</div>`}
+function loadSettings(){let s=db.settings;["Company","Phone","Email","Web","Address","Note"].forEach(k=>{let id="set"+k;if($(id))$(id).value=s[k.toLowerCase()]||""})}
+function saveSettings(){db.settings={company:$("setCompany").value,phone:$("setPhone").value,email:$("setEmail").value,web:$("setWeb").value,address:$("setAddress").value,note:$("setNote").value};save();toast("Settings saved");renderReport()}
+function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ambeco-cost-estimator-backup.json";a.click()}
+function restoreBackup(file){if(!file)return;let r=new FileReader();r.onload=()=>{try{db=JSON.parse(r.result);save();location.reload()}catch(e){alert("Invalid backup file.")}};r.readAsText(file)}
+function clearData(){if(confirm("Clear all local app data? This cannot be undone unless you have a backup.")){localStorage.removeItem(KEY);location.reload()}}
+function openModal(html){$("modalBox").innerHTML=html;$("modal").classList.add("show")}function closeModal(){$("modal").classList.remove("show")}
+function init(){renderDash();renderProjects();renderRates();renderAnalyses();loadSettings();if(db.plan)renderTakeoff();if(!db.analysisComponents.length)newAnalysis()}
+init();
+</script>
+</body></html>
